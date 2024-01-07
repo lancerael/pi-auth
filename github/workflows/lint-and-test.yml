@@ -1,0 +1,22 @@
+name: Lint & Test
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  tdd:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
