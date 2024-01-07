@@ -1,6 +1,6 @@
 # pi-auth
 
-An Node Express app to handle basic authentication and authorisation, with access and refresh tokens.
+A Node Express app to handle basic authentication and authorisation, with access and refresh tokens.
 This is a simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service for where you want to handle user accounts on your website without login redirects. ROPC is not the most secure flow, so this solution is not recommended for protecting sensitive information.
 
 ## Table of Contents
@@ -42,8 +42,25 @@ npm install
 
 The auth service has a PostgreSQL database with the database tables:
 
-- **pi_users** - stores the user info
-- **pi_token_whitelist** - a whitelist for the valid tokens
+#### `pi_users` Table
+
+This table stores user information.
+
+- `user_id`: Unique identifier for each user (serial, primary key).
+- `username`: User's username (VARCHAR, unique, not null).
+- `email`: User's email address (VARCHAR, unique, not null).
+- `password_hash`: Hashed password for user authentication (VARCHAR, not null).
+
+#### `pi_token_whitelist` Table
+
+This table maintains a whitelist of tokens for user sessions.
+
+- `user_session_id`: Unique identifier for each session (serial, primary key).
+- `username`: User's username associated with the session (VARCHAR, unique, not null).
+- `access_token`: Access token for the session (VARCHAR, unique, not null).
+- `refresh_token`: Refresh token for the session (VARCHAR, unique, not null).
+
+These tables are designed to store user information securely and manage authentication tokens for user sessions.
 
 The login flow is managed using the following endpoints:
 
