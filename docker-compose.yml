@@ -5,7 +5,8 @@ services:
     depends_on:
       - users
     volumes:
-      - "./:/usr/app"
+      - ./:/usr/app
+      - /usr/app/node_modules
     working_dir: /usr/app
     command: sh -c "npm install && npm run dev"
     ports:
@@ -21,3 +22,11 @@ services:
       - "5432:5432"
     volumes:
       - "./src/queries/initialise.sql:/docker-entrypoint-initdb.d/initialise.sql"
+  swagger:
+    image: swaggerapi/swagger-editor
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./swagger:/tmp
+    environment:
+      - SWAGGER_FILE=/tmp/swagger.yaml

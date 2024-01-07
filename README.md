@@ -1,6 +1,7 @@
 # pi-auth
 
 An Node Express app to handle basic authentication and authorisation, with access and refresh tokens.
+This is a simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service for where you want to handle user accounts on your website without login redirects. ROPC is not the most secure flow, so this solution is not recommended for protecting sensitive information.
 
 ## Table of Contents
 
@@ -17,9 +18,8 @@ An Node Express app to handle basic authentication and authorisation, with acces
 ## Prerequisites
 
 - Node.js
-- pnpm (or npm/yarn)
+- npm (or pnpm/yarn)
 - Docker
-- Postman (for local testing)
 
 ## Getting Started
 
@@ -35,31 +35,55 @@ cd your-repository
 Install dependencies:
 
 ```
-pnpm install
+npm install
 ```
 
 ### Usage
 
-To try the app locally, make sure Docker is running, then start the application with:
-
-```
-npm serve
-```
-
-This will initialise a PostgreSQL database container with the database tables needed:
+The auth service has a PostgreSQL database with the database tables:
 
 - **pi_users** - stores the user info
 - **pi_token_whitelist** - a whitelist for the valid tokens
 
-It will then mount the app in another container.
+The login flow is managed using the following endpoints:
 
-Import the `pi_auth.postman_collection.json` into Postman to test the endpoints:
+#### Signup
 
-- signup - adds a new user
-- login - logs the user in to get access/refresh tokens
-- validate - checks the access token
-- refresh - uses the refresh token to refresh the access/refresh tokens
-- logout - invalidate the tokens
+- **Endpoint**: `POST /auth/signup`
+- **Description**: Creates a new user account.
+- **Request Body**:
+  - `username` (string): User's username.
+  - `email` (string): User's email address.
+  - `password` (string): User's password.
+
+#### Login
+
+- **Endpoint**: `POST /auth/login`
+- **Description**: Authenticates a user and returns access and refresh tokens.
+- **Request Body**:
+  - `username` (string): User's username.
+  - `password` (string): User's password.
+
+#### Validate
+
+- **Endpoint**: `GET /auth/validate`
+- **Description**: Validates the user's access token.
+- **Headers**:
+  - `Authorization` (string): Bearer token containing the access token.
+
+#### Refresh
+
+- **Endpoint**: `GET /auth/refresh`
+- **Description**: Refreshes the user's access token using the refresh token.
+- **Cookies**:
+  - `refreshToken` (string): HTTP-only cookie containing the refresh token.
+
+#### Logout
+
+- **Endpoint**: `DELETE /auth/logout`
+- **Description**: Logs out the user and invalidates the refresh token.
+- **Headers**:
+  - `Authorization` (string): Bearer token containing the access token.
 
 ## Docker
 
@@ -67,27 +91,49 @@ Import the `pi_auth.postman_collection.json` into Postman to test the endpoints:
 
 Build the Docker image:
 
+```
 docker build -t pi-auth .
+```
 
 ### Running the Docker Container
 
 Run the Docker container:
 
+```
 docker run -p 3000:3000 -d pi-auth
+```
 
-Visit http://localhost:3000 in your web browser.
+The service is available via http://localhost:3000
 
 ## Development
+
+To try the app locally, make sure Docker is running, then start the application with:
+
+```
+npm serve
+```
+
+This will initialise a PostgreSQL database container with the database tables needed, and mount the app in another container.
+
+It will also mount swagger at http://localhost:8080 so you can experiment with the endpoints. If you prefer postman, import the `./http-debug/pi_auth.postman_collection.json` file into Postman to test the endpoints.
+
+If you want to run the app locally, you can stop the pi_auth service on Docker and run it from your terminal using nodemon with:
+
+```
+npm dev
+```
 
 ## Testing
 
 Run the local unit tests using:
 
 ```
-pnpm test
+npm test
 ```
 
 ## Deployment
+
+...coming soon
 
 ## License
 

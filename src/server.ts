@@ -9,6 +9,8 @@ dotenv.config()
 
 const app = express()
 
+console.log(ORIGIN)
+
 app.use(
   cors({
     origin: ORIGIN,

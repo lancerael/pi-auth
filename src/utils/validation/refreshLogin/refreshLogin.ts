@@ -24,7 +24,7 @@ const refreshLogin = (username: string, res: Response) => {
   })
 
   // Return the new tokens
-  return tokens
+  return tokens.access_token
 }
 
 export default refreshLogin

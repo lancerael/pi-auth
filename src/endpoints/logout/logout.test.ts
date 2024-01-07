@@ -23,7 +23,7 @@ describe('logout', () => {
     mockedTokenRetire.mockClear()
 
     // Reset mock implementation
-    mockedValidateUser.mockResolvedValue(200)
+    mockedValidateUser.mockResolvedValue('user')
     mockedTokenRetire.mockResolvedValue(true)
 
     res = {
@@ -43,16 +43,16 @@ describe('logout', () => {
   it('should return 503 if tokenRetire fails', async () => {
     mockedTokenRetire.mockResolvedValueOnce(false)
 
-    await logout({ body: { username: 'faultyUser' } } as UserRequest, res)
+    await logout({} as UserRequest, res)
 
     expect(res.sendStatus).toHaveBeenCalledWith(503)
-    expect(mockedTokenRetire).toHaveBeenCalledWith('faultyUser')
+    expect(mockedTokenRetire).toHaveBeenCalledWith('user')
   })
 
   it('should return 200 on successful logout', async () => {
-    await logout({ body: { username: 'validUser' } } as UserRequest, res)
+    await logout({} as UserRequest, res)
 
     expect(res.sendStatus).toHaveBeenCalledWith(200)
-    expect(mockedTokenRetire).toHaveBeenCalledWith('validUser')
+    expect(mockedTokenRetire).toHaveBeenCalledWith('user')
   })
 })

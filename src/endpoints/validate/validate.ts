@@ -9,8 +9,9 @@ import validateUser from '../../utils/validation/validateUser'
  * @param {Response} res - Express response object.
  * @returns {Promise<Response>} A Promise that resolves after handling the validation process.
  */
-const validate = async (req: UserRequest, res: Response) => {
-  return res.sendStatus(await validateUser(req))
+export const validate = async (req: UserRequest, res: Response) => {
+  const username = await validateUser(req)
+  return res.sendStatus(typeof username === 'string' ? 200 : username)
 }
 
 export default validate

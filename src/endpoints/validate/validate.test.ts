@@ -18,7 +18,7 @@ describe('validate', () => {
     mockedValidateUser.mockClear()
 
     // Reset mock implementation
-    mockedValidateUser.mockResolvedValue(200)
+    mockedValidateUser.mockResolvedValue('user')
 
     res = {
       sendStatus: jest.fn(),

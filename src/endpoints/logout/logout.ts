@@ -10,17 +10,20 @@ import tokenRetire from '../../utils/data/tokenWhitelist/tokenRetire'
  * @param {Response} res - Express response object.
  * @returns {Promise<Response>} A Promise that resolves after handling the logout process.
  */
-const logout = async (req: UserRequest, res: Response): Promise<Response> => {
+export const logout = async (
+  req: UserRequest,
+  res: Response
+): Promise<Response> => {
   // Validates the user's credentials and checks the token whitelist.
-  const validationStatus = await validateUser(req)
+  const username = await validateUser(req)
 
   // Handle validation failure
-  if (validationStatus !== 200) {
-    return res.sendStatus(validationStatus)
+  if (typeof username === 'number') {
+    return res.sendStatus(username)
   }
 
   // Attempt to retire the user's token
-  const isTokenRetired = await tokenRetire(req.body.username)
+  const isTokenRetired = await tokenRetire(username)
 
   // Return status
   return res.sendStatus(isTokenRetired ? 200 : 503)

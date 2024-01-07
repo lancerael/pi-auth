@@ -1,7 +1,7 @@
 {
   "name": "@pi-lib/auth",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple ROPC Oauth 2.0 service implemented in Node",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon ./src/server.ts",
     "serve": "docker compose up",

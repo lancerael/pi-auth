@@ -8,14 +8,14 @@ jest.mock('../../data/tokenWhitelist/checkToken')
 describe('validateToken', () => {
   it('should return 200 for a valid and whitelisted token', async () => {
     // Mock verifyToken to return true and checkToken to resolve to true
-    ;(verifyToken as jest.Mock).mockReturnValue(true)
+    ;(verifyToken as jest.Mock).mockReturnValue('user')
     ;(checkToken as jest.Mock).mockResolvedValue(true)
 
     // Execute the function
     const result = await validateToken('access', 'validToken')
 
     // Expectations
-    expect(result).toBe(200)
+    expect(result).toBe('user')
   })
 
   it('should return 403 for an invalid token', async () => {

@@ -74,7 +74,7 @@ describe('checkUserCredentials', () => {
     expect(makeQuery).toHaveBeenCalledWith('checkUserCredentials', {
       args: { username: 'nonExistingUser' },
     })
-    expect(bcrypt.compare).toHaveBeenCalledWith('password123', undefined)
+    expect(bcrypt.compare).not.toHaveBeenCalled()
     expect(result).toBe(false)
   })
 
@@ -92,7 +92,7 @@ describe('checkUserCredentials', () => {
     expect(makeQuery).toHaveBeenCalledWith('checkUserCredentials', {
       args: { username: 'existingUser' },
     })
-    expect(bcrypt.compare).toHaveBeenCalledWith('password123', undefined)
+    expect(bcrypt.compare).not.toHaveBeenCalled()
     expect(result).toBe(false)
   })
 })

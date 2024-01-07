@@ -10,8 +10,11 @@ import refreshLogin from '../../utils/validation/refreshLogin'
  * @param {Response} res - Express response object.
  * @returns {Promise<Response>} A Promise resolving to the Express response object.
  */
-const login = async (req: UserRequest, res: Response): Promise<Response> => {
-  const { username, password } = req.body
+export const login = async (
+  req: UserRequest,
+  res: Response
+): Promise<Response> => {
+  const { username, password } = req?.body ?? {}
 
   // Handle missing username or password
   if (!username || !password) {
@@ -23,8 +26,8 @@ const login = async (req: UserRequest, res: Response): Promise<Response> => {
     return res.sendStatus(403)
   }
 
-  // Successful login, return refreshed tokens
-  return res.json(refreshLogin(username, res))
+  // Successful login, return refreshed token
+  return res.send(refreshLogin(username, res))
 }
 
 export default login

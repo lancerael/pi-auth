@@ -14,16 +14,13 @@ describe('refreshLogin', () => {
     })
 
     // Execute the function
-    const result = refreshLogin('testUser')
+    const result = refreshLogin('testUser', { cookie: jest.fn() } as any)
 
     // Expectations
     expect(tokenRefresh).toHaveBeenCalledWith('testUser', {
       access_token: 'newAccessToken',
       refresh_token: 'newRefreshToken',
     })
-    expect(result).toEqual({
-      access_token: 'newAccessToken',
-      refresh_token: 'newRefreshToken',
-    })
+    expect(result).toEqual('newAccessToken')
   })
 })

@@ -16,8 +16,10 @@ const checkUserCredentials = async (
     args: { username },
   })
 
+  if (!response?.rows[0]?.password_hash) return false
+
   // Compare the provided password with the stored hashed password
-  return await bcrypt.compare(password, response?.rows[0]?.password_hash)
+  return await bcrypt.compare(password, response.rows[0].password_hash)
 }
 
 export default checkUserCredentials

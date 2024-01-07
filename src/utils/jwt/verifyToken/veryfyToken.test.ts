@@ -17,7 +17,7 @@ describe('verifyToken', () => {
       'validToken',
       TOKEN_SECRETS['access']
     )
-    expect(result).toBe(true)
+    expect(result).toBe('existingUser')
   })
 
   it('should return false if the token is invalid', () => {
@@ -30,7 +30,7 @@ describe('verifyToken', () => {
     const result = verifyToken('invalidToken', 'access')
 
     // Expectations
-    expect(result).toBe(false)
+    expect(result).toBe('')
   })
 
   it('should return false if an error occurs during token verification', () => {
@@ -43,14 +43,14 @@ describe('verifyToken', () => {
     const result = verifyToken('validToken', 'access')
 
     // Expectations
-    expect(result).toBe(false)
+    expect(result).toBe('')
   })
 
-  it('should return false if the token is an empty string', () => {
+  it('should return empty string if the token is an empty string', () => {
     // Execute the function with an empty string as the token
     const result = verifyToken('', 'access')
 
     // Expectations
-    expect(result).toBe(false)
+    expect(result).toBe('')
   })
 })

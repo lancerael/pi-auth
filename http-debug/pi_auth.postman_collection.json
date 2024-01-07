@@ -3,7 +3,8 @@
 		"_postman_id": "3b10e26d-69a4-4345-9509-ac8538902b9d",
 		"name": "Pi Auth",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25014305"
+		"_exporter_id": "25014305",
+		"_collection_link": "https://www.postman.com/security-saganist-60346043/workspace/pi-auth/collection/25014305-3b10e26d-69a4-4345-9509-ac8538902b9d?action=share&source=collection_link&creator=25014305"
 	},
 	"item": [
 		{
@@ -97,17 +98,8 @@
 		{
 			"name": "Refresh",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"lance\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:3000/auth/refresh",
 					"protocol": "http",
@@ -136,17 +128,8 @@
 						}
 					]
 				},
-				"method": "POST",
+				"method": "DELETE",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"lance\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:3000/auth/logout",
 					"protocol": "http",

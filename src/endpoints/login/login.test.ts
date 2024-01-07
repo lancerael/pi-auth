@@ -18,11 +18,8 @@ describe('login function', () => {
   let res: Response
 
   beforeEach(() => {
-    // Mock Express response methods
-    const sendMock = jest.fn()
-
     res = {
-      json: jest.fn(),
+      send: jest.fn(),
       sendStatus: jest.fn(),
     } as unknown as Response
   })
@@ -35,7 +32,7 @@ describe('login function', () => {
     await login({ body: {} } as UserRequest, res)
 
     expect(res.sendStatus).toHaveBeenCalledWith(401)
-    expect(res.json).not.toHaveBeenCalled()
+    expect(res.send).not.toHaveBeenCalled()
   })
 
   it('should return 403 if checkUserCredentials returns false', async () => {
@@ -49,15 +46,12 @@ describe('login function', () => {
     )
 
     expect(res.sendStatus).toHaveBeenCalledWith(403)
-    expect(res.json).not.toHaveBeenCalled()
+    expect(res.send).not.toHaveBeenCalled()
   })
 
   it('should return 200 with refreshed tokens on successful login', async () => {
     mockedCheckUserCredentials.mockResolvedValueOnce(true)
-    mockedRefreshLogin.mockReturnValueOnce({
-      access_token: 'mockedAccessToken',
-      refresh_token: 'mockedRefreshToken',
-    })
+    mockedRefreshLogin.mockReturnValueOnce('mockedAccessToken')
 
     await login(
       {
@@ -67,9 +61,6 @@ describe('login function', () => {
     )
 
     expect(res.sendStatus).not.toHaveBeenCalled()
-    expect(res.json).toHaveBeenCalledWith({
-      access_token: 'mockedAccessToken',
-      refresh_token: 'mockedRefreshToken',
-    })
+    expect(res.send).toHaveBeenCalledWith('mockedAccessToken')
   })
 })

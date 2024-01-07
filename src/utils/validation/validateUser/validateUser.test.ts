@@ -10,36 +10,12 @@ describe('validateUser', () => {
 
     // Execute the function
     const result = await validateUser({
-      body: { username: 'existingUser' },
       headers: { authorization: 'Bearer validToken' },
     } as any)
 
     // Expectations
-    expect(validateToken).toHaveBeenCalledWith(
-      'access',
-      'existingUser',
-      'validToken'
-    )
+    expect(validateToken).toHaveBeenCalledWith('access', 'validToken')
     expect(result).toBe(200)
-  })
-
-  it('should return 401 for missing username', async () => {
-    // Mock validateToken to resolve to 401
-    ;(validateToken as jest.Mock).mockResolvedValueOnce(401)
-
-    // Execute the function with missing username
-    const result = await validateUser({
-      body: {},
-      headers: { authorization: 'Bearer validToken' },
-    } as any)
-
-    // Expectations
-    expect(validateToken).toHaveBeenCalledWith(
-      'access',
-      undefined,
-      'validToken'
-    )
-    expect(result).toBe(401)
   })
 
   it('should return 401 for missing access token', async () => {
@@ -48,16 +24,11 @@ describe('validateUser', () => {
 
     // Execute the function with missing access token
     const result = await validateUser({
-      body: { username: 'existingUser' },
       headers: {},
     } as any)
 
     // Expectations
-    expect(validateToken).toHaveBeenCalledWith(
-      'access',
-      'existingUser',
-      undefined
-    )
+    expect(validateToken).toHaveBeenCalledWith('access', undefined)
     expect(result).toBe(401)
   })
 
@@ -67,16 +38,11 @@ describe('validateUser', () => {
 
     // Execute the function
     const result = await validateUser({
-      body: { username: 'existingUser' },
       headers: { authorization: 'Bearer invalidToken' },
     } as any)
 
     // Expectations
-    expect(validateToken).toHaveBeenCalledWith(
-      'access',
-      'existingUser',
-      'invalidToken'
-    )
+    expect(validateToken).toHaveBeenCalledWith('access', 'invalidToken')
     expect(result).toBe(403)
   })
 })

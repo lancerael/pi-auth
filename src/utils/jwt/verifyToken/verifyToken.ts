@@ -7,16 +7,16 @@ import { TokenType } from '../jwt.types'
  * Verifies the authenticity of a JSON Web Token (JWT).
  * @param {string} token - The JWT to be verified.
  * @param {TokenType} type - The type of the token (access or refresh).
- * @returns {boolean} True if the token is valid; otherwise, false.
+ * @returns {string} Username if the token is valid; otherwise, empty string.
  */
-const verifyToken = (token: string, type: TokenType): boolean => {
+const verifyToken = (token: string, type: TokenType): string => {
   try {
     // Attempt to verify the JWT and extract the username
     const verifiedUser = jwt.verify(token, TOKEN_SECRETS[type]) as AuthUser
-    return !!verifiedUser.username
+    return verifiedUser.username ?? ''
   } catch (e) {
     // Return false if an error occurs during token verification
-    return false
+    return ''
   }
 }
 

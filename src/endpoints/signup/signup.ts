@@ -8,7 +8,10 @@ import addUser from '../../utils/data/users/addUser'
  * @param {Response} res - The express response object.
  * @returns {Promise<void>} A promise representing the completion of the signup process.
  */
-const signup = async (req: UserRequest, res: Response): Promise<Response> => {
+export const signup = async (
+  req: UserRequest,
+  res: Response
+): Promise<Response> => {
   const { username, password, email } = req.body
   const result = await addUser(username, password, email)
 

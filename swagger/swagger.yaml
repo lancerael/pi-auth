@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: Pi Auth
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/auth
+
+paths:
+  /signup:
+    post:
+      summary: User signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+      responses:
+        '200':
+          description: Signup successful
+        '400':
+          description: Bad request - invalid input or user already exists
+
+  /login:
+    post:
+      summary: User login and token generation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Access token
+        '401':
+          description: Unauthorized - invalid credentials
+        '403':
+          description: Forbidden - invalid user
+      x-cookies:
+        - name: refresh_token
+          description: Refresh token stored in an HTTP-only cookie
+
+  /logout:
+    delete:
+      summary: User logout
+      responses:
+        '200':
+          description: Logout successful
+        '401':
+          description: Unauthorized - invalid credentials
+        '503':
+          description: Service Unavailable - token retire failed
+
+  /validate:
+    get:
+      summary: Validate user credentials
+      responses:
+        '200':
+          description: User credentials valid
+        '401':
+          description: Unauthorized - invalid credentials
+
+  /refresh:
+    get:
+      summary: Refresh access token using the refresh token
+      responses:
+        '200':
+          description: Access token refreshed successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Access token
+        '401':
+          description: Unauthorized - invalid refresh token
+      x-cookies:
+        - name: refresh_token
+          description: Refresh token stored in an HTTP-only cookie
