@@ -1,7 +1,7 @@
 # pi-auth
 
 A Node Express app to handle basic authentication and authorisation, with access and refresh tokens.
-This is a simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service for where you want to handle user accounts on your website without login redirects. ROPC is not the most secure flow, so this solution is not recommended for protecting sensitive information.
+This is a simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service for where you want to handle user accounts on your website without login redirects. ROPC is not the most secure flow, so this solution is not recommended for protecting sensitive information, but is useful for a quick and easy flow for simple accounts.
 
 ## Table of Contents
 
