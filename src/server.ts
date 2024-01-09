@@ -9,15 +9,14 @@ dotenv.config()
 
 const app = express()
 
-console.log(ORIGIN)
+app.use(cookieParser())
 
 app.use(
   cors({
     origin: ORIGIN,
+    credentials: true,
   })
 )
-
-app.use(cookieParser())
 
 app.use('/auth', auth)
 

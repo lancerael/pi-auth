@@ -15,7 +15,7 @@ export const refresh = async (req: UserRequest, res: Response) => {
 
   const username = await validateToken('refresh', refresh_token)
   if (typeof username === 'number') return res.sendStatus(username)
-  return res.send(refreshLogin(username, res))
+  return res.send(refreshLogin(username, true, res))
 }
 
 export default refresh

@@ -14,7 +14,7 @@ export const login = async (
   req: UserRequest,
   res: Response
 ): Promise<Response> => {
-  const { username, password } = req?.body ?? {}
+  const { username, password, consent } = req?.body ?? {}
 
   // Handle missing username or password
   if (!username || !password) {
@@ -27,7 +27,7 @@ export const login = async (
   }
 
   // Successful login, return refreshed token
-  return res.send(refreshLogin(username, res))
+  return res.send(refreshLogin(username, consent === 'true', res))
 }
 
 export default login
