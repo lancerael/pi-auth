@@ -14,7 +14,7 @@ describe('refreshLogin', () => {
     })
 
     // Execute the function
-    const result = refreshLogin('testUser', { cookie: jest.fn() } as any)
+    const result = refreshLogin('testUser', true, { cookie: jest.fn() } as any)
 
     // Expectations
     expect(tokenRefresh).toHaveBeenCalledWith('testUser', {
