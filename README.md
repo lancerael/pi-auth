@@ -1,12 +1,12 @@
 # pi-auth
 
-A Node Express app to handle basic authentication and authorisation, with access and refresh tokens.
-This is a simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service for where you want to handle user accounts on your website without login redirects. ROPC is not the most secure flow, so this solution is not recommended for protecting sensitive information, but is useful for a quick and easy flow for simple accounts.
+A simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service to handle user accounts on your website without login redirects. It provides basic authentication and authorisation, with access and refresh tokens. This solution is not recommended for protecting sensitive information, but is useful for a quick and easy flow for simple accounts.
 
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
+  - [Quick start](#quick-start)
   - [Installation](#installation)
   - [Usage](#usage)
 - [Docker](#docker)
@@ -20,10 +20,9 @@ This is a simple ROPC (Resource Owner Password Credentials) Oauth 2.0 service fo
 - Node.js
 - npm (or pnpm/yarn)
 - Docker
+- Postman (optional, to test endpoints)
 
 ## Getting Started
-
-### Installation
 
 Clone the repository:
 
@@ -32,17 +31,31 @@ git clone https://github.com/lancerael/pi-auth.git
 cd your-repository
 ```
 
+### Quick start
+
+The quickest way to try the app locally, is to make sure Docker is running, then start the application with:
+
+```
+npm run serve
+```
+
+You can then access the demo app at http://localhost:4174 to experiment with the endpoints.
+
+### Installation
+
 Install dependencies:
 
 ```
 npm install
 ```
 
+Needed if you want to run the service directly from Node, rather than Docker.
+
 ### Usage
 
 The auth service has a PostgreSQL database with the database tables:
 
-#### `pi_users` Table
+#### pi_users
 
 This table stores user information.
 
@@ -51,7 +64,7 @@ This table stores user information.
 - `email`: User's email address (VARCHAR, unique, not null).
 - `password_hash`: Hashed password for user authentication (VARCHAR, not null).
 
-#### `pi_token_whitelist` Table
+#### pi_token_whitelist
 
 This table maintains a whitelist of tokens for user sessions.
 
@@ -91,7 +104,7 @@ The login flow is managed using the following endpoints:
 #### Refresh
 
 - **Endpoint**: `GET /auth/refresh`
-- **Description**: Refreshes the user's access token using the refresh token.
+- **Description**: Refreshes the user's access token using the refresh token (only if the user has consented to cookies).
 - **Cookies**:
   - `refreshToken` (string): HTTP-only cookie containing the refresh token.
 
@@ -104,53 +117,61 @@ The login flow is managed using the following endpoints:
 
 ## Docker
 
-### Building the Docker Image
+The image is tagged docker at `lancerael/pi-lib-auth-fe:latest`
 
-Build the Docker image:
-
-```
-docker build -t pi-auth .
-```
-
-### Running the Docker Container
-
-Run the Docker container:
-
-```
-docker run -p 3000:3000 -d pi-auth
-```
-
-The service is available via http://localhost:3000
+https://hub.docker.com/repository/docker/lancerael/pi-lib-auth-fe
 
 ## Development
 
-To try the app locally, make sure Docker is running, then start the application with:
+To use Docker Compose, make sure Docker is running, then start the application with:
 
 ```
-npm serve
+npm run serve
 ```
 
-This will initialise a PostgreSQL database container with the database tables needed, and mount the app in another container.
+This will initialise a PostgreSQL database container with the database tables needed, and mount the auth service in another container, as well as Swagger in another. Finally it will launch the demo FE.
 
-It will also mount swagger at http://localhost:8080 so you can experiment with the endpoints. If you prefer postman, import the `./http-debug/pi_auth.postman_collection.json` file into Postman to test the endpoints.
+- Demo FE is at http://localhost:4173
+- Swagger is at http://localhost:8080
+- Use `./http-debug/pi_auth.postman_collection.json` file to test with Postman.
+- To use you local FE instead of these, make sure to update the `DEV_URL` environment variable to enable CORS.
 
 If you want to run the app locally, you can stop the pi_auth service on Docker and run it from your terminal using nodemon with:
 
 ```
-npm dev
+npm run dev
 ```
+
+If you're doing this, remember to update the POSTGRES_HOST to be localhost.
+
+If you want some inspiration for implementation, check out the code for the demo app over at the Pi Lib Monorepo: https://github.com/lancerael/pi/tree/main/src/apps/spas/pi-auth
 
 ## Testing
 
 Run the local unit tests using:
 
 ```
-npm test
+npm run test
 ```
 
 ## Deployment
 
-...coming soon
+Set up a PostgreSQL database using the `./src/queries/initialise.sql` query.
+
+Set these environment variables before deploying the app:
+
+```
+JWT_SECRET=123
+REFRESH_SECRET=456
+POSTGRES_DB=pi_auth_db
+POSTGRES_USER=pi_auth_user
+POSTGRES_PASSWORD=pi_auth_password
+POSTGRES_HOST=users
+DEV_URL=http://localhost:8080
+PROD_URL=http://prod-url.com
+```
+
+You can then deploy the app to your server and use the endpoints for authorisation and authentication.
 
 ## License
 

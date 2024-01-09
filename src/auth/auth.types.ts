@@ -4,6 +4,7 @@ export interface AuthUser {
   username: string
   password: string
   email: string
+  consent: string
   refresh_token: string
 }
 

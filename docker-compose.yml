@@ -30,3 +30,7 @@ services:
       - ./swagger:/tmp
     environment:
       - SWAGGER_FILE=/tmp/swagger.yaml
+  pi-lib-auth-fe:
+    image: lancerael/pi-lib-auth-fe
+    ports:
+      - '4173:4173'
