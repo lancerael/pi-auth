@@ -41,7 +41,7 @@ The quickest way to try the app locally, is to make sure Docker is running, then
 npm run serve
 ```
 
-You can then access the demo app at http://localhost:4174 to experiment with the endpoints.
+You can then access the demo app at http://localhost:4173 to experiment with the endpoints.
 
 ### Installation
 
