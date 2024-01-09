@@ -31,6 +31,8 @@ git clone https://github.com/lancerael/pi-auth.git
 cd your-repository
 ```
 
+Rename `.env.example` to `.env`. These default values will let you test and develop.
+
 ### Quick start
 
 The quickest way to try the app locally, is to make sure Docker is running, then start the application with:
